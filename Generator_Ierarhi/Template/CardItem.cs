@@ -30,32 +30,48 @@ namespace Generator_Ierarhi.Template
         public void layout()
         {
             this.BackColor = ThemeColor.PrimaryColor;
-            this.Size = new Size(150, 150);
+            this.Size = new Size(100, 100);
             this.BorderStyle = BorderStyle.Fixed3D;
             this.Font = new Font("Microsoft Sans Serif", 14, FontStyle.Regular);
+            this.Name = person.Id.ToString();
+
+            this.AllowDrop = true;
+
+            this.MouseDown += CardItem_MouseDown;
 
             setPic();
             setNume();
         }
 
+        private void CardItem_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                CardItem card = sender as CardItem;
+
+                this.DoDragDrop(this, DragDropEffects.Copy);
+            }
+        }
+
         private void setPic()
         {
             PictureBox pic = new PictureBox();
-            pic.Size = new Size(100, 100);
+            pic.Size = new Size(50, 50);
             pic.Location = new Point(25, 10);
             pic.BackgroundImage = person.Picture;
             pic.BackgroundImageLayout = ImageLayout.Stretch;
+            pic.Name = person.Id.ToString();
 
             this.Controls.Add(pic);
         }
-
+        
         private void setNume()
         {
             TextBox txtName = new TextBox();
             txtName.AutoSize = false;
-            txtName.Size = new Size(135, 20);
-            txtName.Location = new Point(5, 120);
-            txtName.Name = "txtName";
+            txtName.Size = new Size(85, 20);
+            txtName.Location = new Point(5, 70);
+            txtName.Name = person.Id.ToString();
             txtName.Text = person.Nume;
             txtName.BorderStyle = BorderStyle.None;
             txtName.BackColor = Color.FromArgb(40, 40, 40);

@@ -40,15 +40,15 @@ namespace Generator_Ierarhi.Controler
             
             while ((linie = reader.ReadLine()) != null)
             {
-                Ierarhie<Person> ierarhie = new Ierarhie<Person>(controlPerson.getPerson(int.Parse(linie.Split(',')[2])));
+                Ierarhie<Person> ierarhie = new Ierarhie<Person>(controlPerson.getPerson(int.Parse(linie.Split(',')[3])));
 
-                for (int i = 3; i < linie.Split(',').Length; i++)
+                for (int i = 4; i < linie.Split(',').Length; i++)
                 {
                     Person person = controlPerson.getPerson(int.Parse(linie.Split(',')[i]));
                     ierarhie.addSubordinate(controlPerson.getPerson(person.IdUpper), person);
                 }
 
-                BuiltIerarhie builtIerarhie = new BuiltIerarhie(int.Parse(linie.Split(',')[0]), int.Parse(linie.Split(',')[1]), ierarhie);
+                BuiltIerarhie builtIerarhie = new BuiltIerarhie(int.Parse(linie.Split(',')[0]), linie.Split(',')[1], int.Parse(linie.Split(',')[2]), ierarhie);
 
                 listIerarhie.Add(builtIerarhie);
             }
@@ -102,5 +102,32 @@ namespace Generator_Ierarhi.Controler
             }
             return null;
         }
+
+        public List<BuiltIerarhie> GetBuilts(int idAdmin)
+        {
+            List<BuiltIerarhie> builts = new List<BuiltIerarhie>();
+
+            foreach(BuiltIerarhie x in listIerarhie)
+            {
+                if (x.IdAdmin == idAdmin)
+                    builts.Add(x);
+            }
+
+            return builts;
+        }
+
+        public void updateTitlu(int id, String titlu)
+        {
+            foreach (BuiltIerarhie builtIerarhie in listIerarhie) 
+            {
+                if (builtIerarhie.Id == id) 
+                {
+                    builtIerarhie.Title = titlu;
+                    break;
+                }
+            }
+        }
+
+
     }
 }

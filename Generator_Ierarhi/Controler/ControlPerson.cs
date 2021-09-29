@@ -9,11 +9,13 @@ using System.Windows.Forms;
 
 namespace Generator_Ierarhi.Controler
 {
-    class ControlPerson
+    public class ControlPerson
     {
         private String path = Application.StartupPath;
 
         private List<Person> people;
+
+        public static Person loged;
 
         public List<Person> People
         {
@@ -35,11 +37,11 @@ namespace Generator_Ierarhi.Controler
 
             while ((linie = reader.ReadLine()) != null)
             {
-                if (linie.Split(',')[5] == "admin")
+                if (linie.Split(',')[5] == "Admin")
                 {
                     people.Add(new Admin(linie));
                 }
-                else if (linie.Split(',')[5] == "staff")
+                else if (linie.Split(',')[5] == "Staff")
                 {
                     people.Add(new Staff(linie));
                 }
@@ -62,6 +64,20 @@ namespace Generator_Ierarhi.Controler
             }
 
             writer.Close();
+        }
+
+        public int getLast()
+        {
+            if (people.Count == 0)
+                return 0;
+            return people.ElementAt(people.Count - 1).Id;
+        }
+
+        public void add(Person person)
+        {
+            person.Id = getLast() + 1;
+
+            people.Add(person);
         }
 
         public void updatePersonNume(int idPers, String nume)
@@ -118,9 +134,9 @@ namespace Generator_Ierarhi.Controler
             {
                 if (people[i].Id == idPers)
                 {
-                    if (tip == "staff")
+                    if (tip == "Staff")
                         people[i] = people[i] as Staff;
-                    else if (tip == "admin")
+                    else if (tip == "Admin")
                     {
                         people[i] = people[i] as Admin;
                     }
@@ -144,6 +160,18 @@ namespace Generator_Ierarhi.Controler
             }
         }
 
+        public void updatePersonUpper(int idPers, int idUpper)
+        {
+            foreach (Person x in people)
+            {
+                if (x.Id == idPers)
+                {
+                    x.IdUpper = idUpper;
+                    break;
+                }
+            }
+        }
+
         public Person getPerson(int idPers)
         {
             foreach (Person x in people)
@@ -154,6 +182,33 @@ namespace Generator_Ierarhi.Controler
                 }
             }
             return null;
+        }
+
+        public Person getPerson(String name)
+        {
+            foreach (Person x in people)
+            {
+                if (x.Nume==name)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public List<Person> GetPeopleAva()
+        {
+            List<Person> list = new List<Person>();
+
+            foreach(Person x in people)
+            {
+                if (x.IdUpper == 0) 
+                {
+                    list.Add(x);
+                }
+            }
+
+            return list;
         }
     }
 }

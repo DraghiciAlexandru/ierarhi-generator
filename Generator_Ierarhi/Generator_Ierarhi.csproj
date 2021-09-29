@@ -60,13 +60,28 @@
     <Compile Include="Template\CardAddPerson.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Template\CardArchive.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Template\CardDetails.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Template\CardItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Template\CardPersoane.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Template\CardProfil.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Template\ViewArchive.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Template\ViewIerarhie.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Template\ViewLogin.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="View\FrmTest.cs">

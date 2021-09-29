@@ -1,4 +1,5 @@
 ﻿using Generator_Ierarhi.Controler;
+using Generator_Ierarhi.Model;
 using Generator_Ierarhi.Template;
 using Restaurant.Servicii;
 using System;
@@ -19,6 +20,7 @@ namespace Generator_Ierarhi.View
         private Panel Main;
         private Button currentBtn;
         private ControlIerarhie controlIerarhie;
+        private ControlPerson controlPerson;
 
         String path = Application.StartupPath;
 
@@ -29,8 +31,9 @@ namespace Generator_Ierarhi.View
             Main = new Panel();
 
             controlIerarhie = new ControlIerarhie();
+            controlPerson = new ControlPerson();
 
-            layoutStaff();
+            setLogin();
         }
 
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -61,6 +64,58 @@ namespace Generator_Ierarhi.View
             }
         }
 
+        public void setLogin()
+        {
+            this.Text = "";
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Location = new Point(300, 200);
+            this.ControlBox = false;
+            this.Size = new Size(500, 300);
+            this.BackColor = Color.FromArgb(40, 40, 40);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            SelectThemeColor();
+
+            setHeader(Header);
+
+            ViewLogin viewLogin = new ViewLogin();
+            Controls.Add(viewLogin);
+
+            Button btnLogin = new Button();
+
+            btnLogin = viewLogin.btnLogin;
+            btnLogin.Click += BtnLogin_Click;
+        }
+
+        private void BtnLogin_Click(object sender, EventArgs e)
+        {
+            ViewLogin viewLogin = new ViewLogin();
+
+            foreach (Control x in Controls)
+            {
+                if (x.Name == "pnlLogin")
+                    viewLogin = x as ViewLogin;
+            }
+
+            if (viewLogin.txtName.Text != "Name:" && viewLogin.txtPass.Text != "Password:")
+            {
+                if (controlPerson.getPerson(viewLogin.txtName.Text) != null)
+                {
+                    if (controlPerson.getPerson(viewLogin.txtName.Text).Password == viewLogin.txtPass.Text)
+                    {
+                        ControlPerson.loged = controlPerson.getPerson(viewLogin.txtName.Text);
+                        Controls.Clear();
+
+                        if (ControlPerson.loged.Tip == "Admin")
+                            layoutStaff();
+                        else
+                            layoutPerson();
+                    }
+                }
+            }
+
+        }
+
         private void DisableBtn()
         {
             foreach (Control prevBtn in Aside.Controls)
@@ -76,24 +131,39 @@ namespace Generator_Ierarhi.View
         {
             this.Text = "";
             this.FormBorderStyle = FormBorderStyle.None;
-            this.Size = new Size(1100, 550);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Location = new Point(150, 75);
-            this.MinimumSize = new Size(800, 400);
+            this.Size = new Size(Screen.FromHandle(this.Handle).WorkingArea.Width, Screen.FromHandle(this.Handle).WorkingArea.Height);
+            this.WindowState = FormWindowState.Maximized;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             
             SelectThemeColor();
 
             setAside(Aside);
+            Header.Controls.Clear();
             setHeader(Header);
             setMain(Main);
 
         }
 
+        public void layoutPerson()
+        {
+            this.Text = "";
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Size = new Size(Screen.FromHandle(this.Handle).WorkingArea.Width, Screen.FromHandle(this.Handle).WorkingArea.Height);
+            this.WindowState = FormWindowState.Maximized;
+            this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
+
+            SelectThemeColor();
+
+            setAsideClient(Aside);
+            Header.Controls.Clear();
+            setHeader(Header);
+            setMain(Main);
+        }
+
         private void setAside(Panel aside)
         {
-            aside.Size = new Size(200, 450);
-            aside.Location = new Point(0, 100);
+            aside.Size = new Size(200, this.Height - 50);
+            aside.Location = new Point(0, 50);
             aside.BackColor = Color.FromArgb(40, 40, 40);
             aside.BorderStyle = BorderStyle.FixedSingle;
             aside.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Regular);
@@ -107,6 +177,47 @@ namespace Generator_Ierarhi.View
             setBtnAddPerson(aside);
 
             Controls.Add(aside);
+        }
+
+        private void setAsideClient(Panel aside)
+        {
+            aside.Size = new Size(200, this.Height - 50);
+            aside.Location = new Point(0, 50);
+            aside.BackColor = Color.FromArgb(40, 40, 40);
+            aside.BorderStyle = BorderStyle.FixedSingle;
+            aside.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Regular);
+            aside.ForeColor = Color.FromArgb(32, 178, 170);
+
+            aside.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+            setBtnProfil(aside);
+            setBtnViewIerarhie(aside);
+
+            Controls.Add(aside);
+        }
+
+        private void setBtnViewIerarhie(Panel aside)
+        {
+            Button btnView = new Button();
+            btnView.Size = new Size(275, 50);
+            btnView.Location = new Point(275, 50);
+            btnView.FlatStyle = FlatStyle.Flat;
+            btnView.FlatAppearance.BorderSize = 0;
+            btnView.Text = "My hierarchy";
+            btnView.Name = "btnView";
+            btnView.TextAlign = ContentAlignment.MiddleCenter;
+            btnView.ForeColor = Color.White;
+
+            btnView.Dock = DockStyle.Top;
+
+            btnView.Click += BtnView_Click;
+
+            aside.Controls.Add(btnView);
+        }
+
+        private void BtnView_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void setBtnAddPerson(Panel aside)
@@ -123,7 +234,20 @@ namespace Generator_Ierarhi.View
 
             btnAddPerson.Dock = DockStyle.Top;
 
+            btnAddPerson.Click += BtnAddPerson_Click;
+
             aside.Controls.Add(btnAddPerson);
+        }
+
+        private void BtnAddPerson_Click(object sender, EventArgs e)
+        {
+            Main.Controls.Clear();
+
+            CardAddPerson cardAdd = new CardAddPerson();
+
+            cardAdd.Location = new Point(0, 0);
+
+            Main.Controls.Add(cardAdd);
         }
 
         private void setBtnCreate(Panel aside)
@@ -157,7 +281,19 @@ namespace Generator_Ierarhi.View
 
             btnArchive.Dock = DockStyle.Top;
 
+            btnArchive.Click += BtnArchive_Click;
+
             aside.Controls.Add(btnArchive);
+        }
+
+        private void BtnArchive_Click(object sender, EventArgs e)
+        {
+            Main.Controls.Clear();
+
+            ViewArchive viewArchive = new ViewArchive(2);
+            viewArchive.Location = new Point(0, 0);
+
+            Main.Controls.Add(viewArchive);
         }
 
         private void setBtnProfil(Panel aside)
@@ -174,21 +310,48 @@ namespace Generator_Ierarhi.View
 
             btnProfil.Dock = DockStyle.Top;
 
+            btnProfil.Click += BtnProfil_Click;
+
             aside.Controls.Add(btnProfil);
+        }
+
+        private void BtnProfil_Click(object sender, EventArgs e)
+        {
+            Main.Controls.Clear();
+
+            CardProfil cardProfil = new CardProfil();
+
+            cardProfil.Location = new Point(200, 200);
+
+            cardProfil.picLogout.Click += PicLogout_Click;
+
+            Main.Controls.Add(cardProfil);
+        }
+
+        private void PicLogout_Click(object sender, EventArgs e)
+        {
+            ControlPerson.loged = null;
+
+            Header.Controls.Clear();
+            Main.Controls.Clear();
+            Aside.Controls.Clear();
+
+            this.Controls.Clear();
+
+            setLogin();
         }
 
         private void setHeader(Panel header)
         {
-            header.Size = new Size(1100, 100);
+            header.Size = new Size(1100, 50);
             header.Dock = DockStyle.Top;
             header.BackColor = ThemeColor.PrimaryColor;
             header.BorderStyle = BorderStyle.FixedSingle;
-            header.MouseDown += Header_MouseDown;
+            //header.MouseDown += Header_MouseDown;
 
             header.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Regular);
 
             setBtnClose(header);
-            setBtnMax(header);
             setBtnMin(header);
 
             Controls.Add(header);
@@ -196,18 +359,12 @@ namespace Generator_Ierarhi.View
 
         private void setMain(Panel main)
         {
-            main.Size = new Size(900, 450);
-            main.Location = new Point(200, 100);
+            main.Size = new Size(this.Width - 200, this.Height - 50);
+            main.Location = new Point(200, 50);
             main.BackColor = Color.FromArgb(40, 40, 40);
             main.BorderStyle = BorderStyle.FixedSingle;
 
             main.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
-            /*ViewIerarhie viewIerarhie = new ViewIerarhie(1);
-
-            viewIerarhie.Location = new Point(0, 0);
-
-            main.Controls.Add(viewIerarhie);*/
 
             Controls.Add(main);
         }
@@ -229,28 +386,11 @@ namespace Generator_Ierarhi.View
             header.Controls.Add(btnClose);
         }
 
-        private void setBtnMax(Panel header)
-        {
-            Button btnMax = new Button();
-            btnMax.Size = new Size(30, 30);
-            btnMax.Location = new Point(1035, 5);
-            btnMax.FlatStyle = FlatStyle.Flat;
-            btnMax.FlatAppearance.BorderSize = 0;
-            btnMax.Name = "btnMax";
-            btnMax.Image = Image.FromFile(path + @"\resources\maximize_window_26px.png");
-
-            btnMax.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-
-            btnMax.Click += BtnMax_Click;
-
-            header.Controls.Add(btnMax);
-        }
-
         private void setBtnMin(Panel header)
         {
             Button btnMin = new Button();
             btnMin.Size = new Size(30, 30);
-            btnMin.Location = new Point(1005, 5);
+            btnMin.Location = new Point(1035, 5);
             btnMin.FlatStyle = FlatStyle.Flat;
             btnMin.FlatAppearance.BorderSize = 0;
             btnMin.Name = "btnMin";
@@ -266,14 +406,6 @@ namespace Generator_Ierarhi.View
         private void BtnMin_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void BtnMax_Click(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Normal)
-                this.WindowState = FormWindowState.Maximized;
-            else
-                this.WindowState = FormWindowState.Normal;
         }
 
         private void BtnClose_Click(object sender, EventArgs e)

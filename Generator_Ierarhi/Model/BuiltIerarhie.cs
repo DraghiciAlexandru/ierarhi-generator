@@ -10,6 +10,7 @@ namespace Generator_Ierarhi.Model
     class BuiltIerarhie
     {
         private int id;
+        private String title;
         private int idAdmin;
         private Ierarhie<Person> ierarhie;
 
@@ -17,6 +18,11 @@ namespace Generator_Ierarhi.Model
         {
             get { return id; }
             set { id = value; }
+        }
+        public String Title
+        {
+            get { return title; }
+            set { title = value; }
         }
         public int IdAdmin
         {
@@ -29,16 +35,17 @@ namespace Generator_Ierarhi.Model
             set { ierarhie = value; }
         }
 
-        public BuiltIerarhie(int id, int idAdmin, Ierarhie<Person> ierarhie)
+        public BuiltIerarhie(int id, String title, int idAdmin, Ierarhie<Person> ierarhie)
         {
             this.id = id;
+            this.title = title;
             this.idAdmin = idAdmin;
             this.ierarhie = ierarhie;
         }
 
         public override string ToString()
         {
-            return id + "," + idAdmin + ierarhie.ToString();
+            return id + "," + title + "," + idAdmin + ierarhie.ToString();
         }
 
     }

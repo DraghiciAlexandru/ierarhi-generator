@@ -1,6 +1,7 @@
 ﻿using Generator_Ierarhi.Controler;
 using Generator_Ierarhi.Model;
 using Generator_Ierarhi.Servicii;
+using Restaurant.Servicii;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,18 +31,47 @@ namespace Generator_Ierarhi.Template
             layout();
         }
 
-        public void layout()
+        private void layout()
         {
-            this.Size = new Size(900, 450);
+            this.Size = new Size(Screen.FromHandle(this.Handle).WorkingArea.Width - 200, Screen.FromHandle(this.Handle).WorkingArea.Height - 100);
             this.BackColor = Color.FromArgb(40, 40, 40);
             this.AutoScroll = true;
             this.Name = "pnlIerarhie";
             this.Location = new Point(0, 0);
 
+            txtTitlu();
             load();
         }
 
-        public void load()
+        private void txtTitlu()
+        {
+            TextBox txtTitlu = new TextBox();
+            txtTitlu.Name = "txtTitlu";
+            txtTitlu.Text = builtIerarhie.Title;
+            txtTitlu.Location = new Point((this.Width / 2) - 100, 40);
+            txtTitlu.Size = new Size(200, 25);
+            txtTitlu.BorderStyle = BorderStyle.None;
+            txtTitlu.ForeColor = ThemeColor.PrimaryColor;
+            txtTitlu.BackColor = Color.FromArgb(40, 40, 40);
+            txtTitlu.TextAlign = HorizontalAlignment.Center;
+
+            txtTitlu.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Regular);
+
+            txtTitlu.TextChanged += TxtTitlu_TextChanged;
+
+            Controls.Add(txtTitlu);
+        }
+
+        private void TxtTitlu_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox=sender as TextBox;
+
+            controlIerarhie.updateTitlu(builtIerarhie.Id, textBox.Text);
+
+            controlIerarhie.save();
+        }
+
+        private void load()
         {
             Queue<TreeNode<Person>> queue = new Queue<TreeNode<Person>>();
 
@@ -49,8 +79,8 @@ namespace Generator_Ierarhi.Template
 
             CardItem cardItem = new CardItem(builtIerarhie.Ierarhie.root.Data);
 
-            cardItem.Location = new Point(375, 30);
-
+            cardItem.Location = new Point(500, 100);
+            
             cardItems.Add(cardItem);
             this.Controls.Add(cardItem);
 
@@ -67,8 +97,9 @@ namespace Generator_Ierarhi.Template
                     {
                         if (z.Person.Id == queue.Peek().Left.Data.IdUpper)
                         {
-                            x = z.Location.X - 250;
                             y = z.Location.Y + 160;
+                            
+                            x = (z.Location.X - 250) + (y / 160) * 60;
                         }
                     }
 
@@ -88,8 +119,8 @@ namespace Generator_Ierarhi.Template
                     {
                         if (z.Person.Id == queue.Peek().Right.Data.IdUpper)
                         {
-                            x = z.Location.X + 250;
                             y = z.Location.Y + 160;
+                            x = (z.Location.X + 250) - (y / 160) * 60;
                         }
                     }
 
@@ -102,6 +133,46 @@ namespace Generator_Ierarhi.Template
                 queue.Dequeue();
             }
 
+            foreach(CardItem i in cardItems)
+            {
+                i.DoubleClick += CardItem_DoubleClick;
+                foreach (Control x in i.Controls)
+                {
+                    x.DoubleClick += CardItem_DoubleClick;
+                }
+            }
+        }
+
+        private void CardItem_DoubleClick(object sender, EventArgs e)
+        {
+            String idPers = "";
+
+            if(sender is CardItem)
+            {
+                idPers = ((CardItem)sender).Name;
+            }
+            else if(sender is PictureBox)
+            {
+                idPers = ((PictureBox)sender).Name;
+            }
+            else if (sender is TextBox)
+            {
+                idPers = ((TextBox)sender).Name;
+            }
+
+            CardDetails cardDetails = new CardDetails(int.Parse(idPers));
+
+            cardDetails.Location = new Point(0, 0);
+
+            this.Parent.Controls.Add(cardDetails);
+
+            foreach (Control x in this.Parent.Controls)
+            {
+                if (x.Name == "pnlIerarhie")
+                {
+                    Parent.Controls.Remove(x);
+                }
+            }
 
         }
     }
