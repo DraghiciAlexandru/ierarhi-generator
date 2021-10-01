@@ -217,7 +217,16 @@ namespace Generator_Ierarhi.View
 
         private void BtnView_Click(object sender, EventArgs e)
         {
+            Main.Controls.Clear();
 
+            if (controlIerarhie.idApartine(ControlPerson.loged.Id) != 0)
+            {
+                ViewIerarhie viewIerarhie = new ViewIerarhie(controlIerarhie.idApartine(ControlPerson.loged.Id));
+                viewIerarhie.removeEvent();
+                viewIerarhie.Location = new Point(0, 0);
+
+                Main.Controls.Add(viewIerarhie);
+            }
         }
 
         private void setBtnAddPerson(Panel aside)
@@ -263,8 +272,21 @@ namespace Generator_Ierarhi.View
             btnCreate.ForeColor = Color.White;
 
             btnCreate.Dock = DockStyle.Top;
+
+            btnCreate.Click += BtnCreate_Click;
             
             aside.Controls.Add(btnCreate);
+        }
+
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            Main.Controls.Clear();
+
+            ViewCreateIerarhie viewCreateIerarhie = new ViewCreateIerarhie();
+
+            viewCreateIerarhie.Location = new Point(250, 150);
+
+            Main.Controls.Add(viewCreateIerarhie);
         }
 
         private void setBtnArchihe(Panel aside)
@@ -290,7 +312,7 @@ namespace Generator_Ierarhi.View
         {
             Main.Controls.Clear();
 
-            ViewArchive viewArchive = new ViewArchive(2);
+            ViewArchive viewArchive = new ViewArchive(ControlPerson.loged.Id);
             viewArchive.Location = new Point(0, 0);
 
             Main.Controls.Add(viewArchive);

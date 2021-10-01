@@ -13,10 +13,12 @@ namespace Generator_Ierarhi.Template
     class CardPersoane : FlowLayoutPanel
     {
         private ControlPerson controlPerson;
+        private List<Person> people;
 
-        public CardPersoane()
+        public CardPersoane(List<Person> people)
         {
             controlPerson = new ControlPerson();
+            this.people = people;
 
             layout();
         }
@@ -34,7 +36,7 @@ namespace Generator_Ierarhi.Template
 
         private void load()
         {
-            foreach(Person x in controlPerson.GetPeopleAva())
+            foreach(Person x in people)
             {
                 CardItem cardItem = new CardItem(x);
 
@@ -42,9 +44,7 @@ namespace Generator_Ierarhi.Template
 
                 this.Controls.Add(cardItem);
             }
-
         }
 
-        
     }
 }

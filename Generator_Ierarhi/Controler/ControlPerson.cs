@@ -37,11 +37,11 @@ namespace Generator_Ierarhi.Controler
 
             while ((linie = reader.ReadLine()) != null)
             {
-                if (linie.Split(',')[5] == "Admin")
+                if (linie.Split(',')[6] == "Admin")
                 {
                     people.Add(new Admin(linie));
                 }
-                else if (linie.Split(',')[5] == "Staff")
+                else if (linie.Split(',')[6] == "Staff")
                 {
                     people.Add(new Staff(linie));
                 }
@@ -84,7 +84,7 @@ namespace Generator_Ierarhi.Controler
         {
             foreach (Person x in people)
             {
-                if (x.Id == idPers)
+              if (x.Id == idPers)
                 {
                     x.Nume = nume;
                     break;
@@ -206,6 +206,19 @@ namespace Generator_Ierarhi.Controler
                 {
                     list.Add(x);
                 }
+            }
+
+            return list;
+        }
+
+        public List<Person> getAdmins()
+        {
+            List<Person> list = new List<Person>();
+
+            foreach (Person x in people)
+            {
+                if (x is Admin)
+                    list.Add(x);
             }
 
             return list;

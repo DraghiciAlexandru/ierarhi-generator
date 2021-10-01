@@ -160,7 +160,7 @@ namespace Generator_Ierarhi.Template
                 idPers = ((TextBox)sender).Name;
             }
 
-            CardDetails cardDetails = new CardDetails(int.Parse(idPers));
+            CardDetails cardDetails = new CardDetails(int.Parse(idPers), builtIerarhie.Id);
 
             cardDetails.Location = new Point(0, 0);
 
@@ -174,6 +174,24 @@ namespace Generator_Ierarhi.Template
                 }
             }
 
+        }
+
+        public void removeEvent()
+        {
+            foreach (CardItem i in cardItems)
+            {
+                i.DoubleClick -= CardItem_DoubleClick;
+                foreach (Control x in i.Controls)
+                {
+                    x.DoubleClick -= CardItem_DoubleClick;
+                }
+            }
+
+            foreach(Control x in this.Controls)
+            {
+                if (x.Name == "txtTitlu")
+                    x.TextChanged -= TxtTitlu_TextChanged;
+            }
         }
     }
 }

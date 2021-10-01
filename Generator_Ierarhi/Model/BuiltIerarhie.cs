@@ -48,5 +48,6 @@ namespace Generator_Ierarhi.Model
             return id + "," + title + "," + idAdmin + ierarhie.ToString();
         }
 
+
     }
 }

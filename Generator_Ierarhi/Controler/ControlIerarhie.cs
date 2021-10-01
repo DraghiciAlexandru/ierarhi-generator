@@ -128,6 +128,29 @@ namespace Generator_Ierarhi.Controler
             }
         }
 
+        public void addToIerarhie(int idBuilt, Person manager, Person subordonat)
+        {
+            foreach (BuiltIerarhie x in listIerarhie)
+            {
+                if (x.Id == idBuilt)
+                {
+                    x.Ierarhie.addSubordinate(manager, subordonat);
+                }
+            }
+        }
+
+        public int idApartine(int idPers)
+        {
+            foreach(BuiltIerarhie x in listIerarhie)
+            {
+                if(x.Ierarhie.find(x.Ierarhie.root, controlPerson.getPerson(idPers))!=null)
+                {
+                    return x.Id;
+                }
+
+            }
+            return 0;
+        }
 
     }
 }

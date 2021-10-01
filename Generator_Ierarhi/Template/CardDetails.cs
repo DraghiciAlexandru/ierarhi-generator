@@ -1,5 +1,6 @@
 ﻿using Generator_Ierarhi.Controler;
 using Generator_Ierarhi.Model;
+using Generator_Ierarhi.Servicii;
 using Restaurant.Servicii;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,22 @@ namespace Generator_Ierarhi.Template
     class CardDetails : Panel
     {
         private ControlPerson controlPerson;
+        private ControlIerarhie controlIerarhie;
         private Person pers;
+        private BuiltIerarhie builtIerarhie;
         private PictureBox pic;
 
         private Panel superior;
         private Panel inferior1;
         private Panel inferior2;
 
-        public CardDetails(int idPerson)
+        public CardDetails(int idPerson, int idBuilt)
         {
             controlPerson = new ControlPerson();
+            controlIerarhie = new ControlIerarhie();
 
             pers = controlPerson.getPerson(idPerson);
+            builtIerarhie = controlIerarhie.GetBuilt(idBuilt);
 
             layout();
         }
@@ -58,11 +63,29 @@ namespace Generator_Ierarhi.Template
 
         private void setPersoane()
         {
-            CardPersoane cardPersoane = new CardPersoane();
+            CardPersoane cardPersoane = new CardPersoane(controlPerson.GetPeopleAva());
 
             cardPersoane.Location = new Point(720, 390);
 
+            for (int x = 0; x < cardPersoane.Controls.Count; x++)
+            {
+                if (cardPersoane.Controls[x] is CardItem)
+                {
+                    cardPersoane.Controls[x].MouseDown += CardDetails_MouseDown;
+                }
+            }
+
             Controls.Add(cardPersoane);
+        }
+
+        private void CardDetails_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                CardItem card = sender as CardItem;
+
+                card.DoDragDrop(card, DragDropEffects.Copy);
+            }
         }
 
         private void addPic()
@@ -279,6 +302,11 @@ namespace Generator_Ierarhi.Template
         private void BtnFinish_Click(object sender, EventArgs e)
         {
             controlPerson.save();
+            controlIerarhie.save();
+
+            ViewIerarhie viewIerarhie = new ViewIerarhie(builtIerarhie.Id);
+            viewIerarhie.Location = new Point(0, 0);
+            Parent.Controls.Add(viewIerarhie);
 
             Parent.Controls.Remove(this);
         }
@@ -353,27 +381,25 @@ namespace Generator_Ierarhi.Template
 
         private void loadInferior()
         {
-            foreach (Person x in controlPerson.People)
-            { 
-                if(x.IdUpper==pers.Id)
-                {
-                    if(inferior1.Controls.Count == 0)
-                    {
-                        CardItem cardItem = new CardItem(controlPerson.getPerson(x.Id));
 
-                        cardItem.Location = new Point(3, 3);
+            TreeNode<Person> treeNode = builtIerarhie.Ierarhie.find(builtIerarhie.Ierarhie.root, pers);
 
-                        inferior1.Controls.Add(cardItem);
-                    }
-                    else
-                    {
-                        CardItem cardItem = new CardItem(controlPerson.getPerson(x.Id));
+            if (treeNode.Left != null)
+            {
+                CardItem cardItem = new CardItem(treeNode.Left.Data);
 
-                        cardItem.Location = new Point(3, 3);
+                cardItem.Location = new Point(3, 3);
 
-                        inferior2.Controls.Add(cardItem);
-                    }
-                }
+                inferior1.Controls.Add(cardItem);
+            }
+
+            if (treeNode.Right != null)
+            {
+                CardItem cardItem = new CardItem(treeNode.Right.Data);
+
+                cardItem.Location = new Point(3, 3);
+
+                inferior2.Controls.Add(cardItem);
             }
 
         }
@@ -400,6 +426,8 @@ namespace Generator_Ierarhi.Template
             CardItem pnlDrag = (CardItem)e.Data.GetData(typeof(CardItem));
 
             controlPerson.updatePersonUpper(int.Parse(pnlDrag.Name), pers.Id);
+
+            controlIerarhie.addToIerarhie(builtIerarhie.Id, pers, controlPerson.getPerson(int.Parse(pnlDrag.Name)));
 
             pnlDrag.Location = new Point(3, 3);
 
@@ -437,6 +465,8 @@ namespace Generator_Ierarhi.Template
             CardItem pnlDrag = (CardItem)e.Data.GetData(typeof(CardItem));
 
             controlPerson.updatePersonUpper(int.Parse(pnlDrag.Name), pers.Id);
+
+            controlIerarhie.addToIerarhie(builtIerarhie.Id, pers, controlPerson.getPerson(int.Parse(pnlDrag.Name)));
 
             pnlDrag.Location = new Point(3, 3);
 

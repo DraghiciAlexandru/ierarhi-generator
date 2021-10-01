@@ -37,20 +37,10 @@ namespace Generator_Ierarhi.Template
 
             this.AllowDrop = true;
 
-            this.MouseDown += CardItem_MouseDown;
+            //this.MouseDown += CardItem_MouseDown;
 
             setPic();
             setNume();
-        }
-
-        private void CardItem_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                CardItem card = sender as CardItem;
-
-                this.DoDragDrop(this, DragDropEffects.Copy);
-            }
         }
 
         private void setPic()
