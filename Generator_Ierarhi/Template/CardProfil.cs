@@ -13,12 +13,14 @@ namespace Generator_Ierarhi.Template
     class CardProfil : Panel
     {
         String path = Application.StartupPath;
-        public TextBox txtName;
-        public TextBox txtTelefon;
-        public TextBox txtEmail;
-        public TextBox txtPassWord;
+        PictureBox pic;
+        private TextBox txtName;
+        private TextBox txtTelefon;
+        private TextBox txtEmail;
+        private TextBox txtPassWord;
         public PictureBox picLogout;
         private ControlPerson controlPerson;
+        private Button btnChoose;
 
         public CardProfil()
         {
@@ -29,7 +31,7 @@ namespace Generator_Ierarhi.Template
 
         private void layout()
         {
-            this.Size = new Size(600, 200);
+            this.Size = new Size(600, 300);
             this.AutoScroll = true;
             this.BackColor = Color.FromArgb(40, 40, 40);
             this.Name = "pnlProfil";
@@ -45,19 +47,58 @@ namespace Generator_Ierarhi.Template
             setTxtTelefon();
             setTxtEmail();
             setTxtPassword();
+            picFile();
         }
 
         private void setPicProfil()
         {
-            PictureBox pic = new PictureBox();
-            pic.Size = new Size(100, 100);
-            pic.Location = new Point(20, 50);
+            pic = new PictureBox();
+            pic.Size = new Size(120, 120);
+            pic.Location = new Point(0, 30);
             pic.BackgroundImage = pic.BackgroundImage = Image.FromFile(@"D:\C#\UIdesign\Dinamic\Generator_Ierarhi\Generator_Ierarhi\bin\Debug\pic\" + ControlPerson.loged.PicFile);
             pic.BackgroundImageLayout = ImageLayout.Stretch;
             pic.BackColor = ThemeColor.PrimaryColor;
-
+            pic.Name = ControlPerson.loged.PicFile;
 
             this.Controls.Add(pic);
+        }
+
+        private void picFile()
+        {
+            btnChoose = new Button();
+            btnChoose.Size = new Size(120, 50);
+            btnChoose.Location = new Point(0, 160);
+            btnChoose.FlatStyle = FlatStyle.Flat;
+            btnChoose.FlatAppearance.BorderSize = 0;
+            btnChoose.Text = "Change";
+            btnChoose.Name = "btnChoose";
+            btnChoose.TextAlign = ContentAlignment.MiddleCenter;
+            btnChoose.ForeColor = ThemeColor.PrimaryColor;
+
+            Controls.Add(btnChoose);
+        }
+
+        private void BtnChoose_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = @"D:\C#\UIdesign\Dinamic\Generator_Ierarhi\Generator_Ierarhi\bin\Debug\pic";
+
+            openFileDialog.ShowDialog();
+
+            try
+            {
+                pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                char t = (char)92;
+                pic.Name = openFileDialog.FileName.Split(t)[openFileDialog.FileName.Split(t).Length - 1];
+            }
+            catch
+            {
+                pic.BackgroundImage = Image.FromFile(@"D:\C#\UIdesign\Dinamic\Generator_Ierarhi\Generator_Ierarhi\bin\Debug\pic\user.png");
+                pic.Name = "user.png";
+            }
+
+            controlPerson.updatePersonPic(ControlPerson.loged.Id, pic.Name);
         }
 
         private void setPicEdit()
@@ -85,11 +126,12 @@ namespace Generator_Ierarhi.Template
             txtEmail.ReadOnly = false;
             txtPassWord.ReadOnly = false;
 
+            btnChoose.Click += BtnChoose_Click;
+
             PictureBox pic = sender as PictureBox;
 
             setPicSave();
             Controls.Remove(pic);
-
         }
 
         private void setLogout()
@@ -135,6 +177,8 @@ namespace Generator_Ierarhi.Template
             txtTelefon.ReadOnly = true;
             txtEmail.ReadOnly = true;
             txtPassWord.ReadOnly = true;
+
+            btnChoose.Click -= BtnChoose_Click;
 
             PictureBox pic = sender as PictureBox;
 

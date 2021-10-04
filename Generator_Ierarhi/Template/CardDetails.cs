@@ -24,6 +24,8 @@ namespace Generator_Ierarhi.Template
         private Panel inferior1;
         private Panel inferior2;
 
+        String path = Application.StartupPath;
+
         public CardDetails(int idPerson, int idBuilt)
         {
             controlPerson = new ControlPerson();
@@ -242,6 +244,12 @@ namespace Generator_Ierarhi.Template
             cboFunctie.Size = new Size(150, 33);
             cboFunctie.Location = new Point(415, 435);
 
+            cboFunctie.BackColor = Color.FromArgb(40, 40, 40);
+            cboFunctie.ForeColor = ThemeColor.PrimaryColor;
+            cboFunctie.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            cboFunctie.FlatStyle = FlatStyle.Flat;
+
             cboFunctie.Items.Add("Admin");
             cboFunctie.Items.Add("Staff");
             cboFunctie.Items.Add("Person");
@@ -291,8 +299,13 @@ namespace Generator_Ierarhi.Template
             btnFinish.FlatAppearance.BorderSize = 0;
             btnFinish.Text = "Finish";
             btnFinish.Name = "btnFinish";
-            btnFinish.TextAlign = ContentAlignment.MiddleCenter;
             btnFinish.ForeColor = Color.White;
+
+            btnFinish.Image = Image.FromFile(path + @"\resources\checkmark_48px.png");
+
+            btnFinish.ImageAlign = ContentAlignment.MiddleLeft;
+            btnFinish.TextAlign = ContentAlignment.MiddleCenter;
+            btnFinish.TextImageRelation = TextImageRelation.ImageBeforeText;
 
             btnFinish.Click += BtnFinish_Click;
 

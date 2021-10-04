@@ -111,7 +111,7 @@ namespace Generator_Ierarhi.Template
         {
             btnLogin = new Button();
             btnLogin.Size = new Size(150, 50);
-            btnLogin.Location = new Point(150, 200);
+            btnLogin.Location = new Point(160, 200);
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Text = "Login";
             btnLogin.Name = "btnLogin";

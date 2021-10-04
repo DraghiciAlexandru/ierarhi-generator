@@ -135,14 +135,14 @@ namespace Generator_Ierarhi.Controler
                 if (people[i].Id == idPers)
                 {
                     if (tip == "Staff")
-                        people[i] = people[i] as Staff;
+                        people[i].Tip = "Staff";
                     else if (tip == "Admin")
                     {
-                        people[i] = people[i] as Admin;
+                        people[i].Tip = "Admin";
                     }
                     else
                     {
-                        people[i] = people[i] as Person;
+                        people[i].Tip = "Person";
                     }
                 }
             }

@@ -16,6 +16,8 @@ namespace Generator_Ierarhi.Template
         private ControlPerson controlPerson;
         private PictureBox pic;
 
+        String path = Application.StartupPath;
+
         public CardAddPerson()
         {
             controlPerson = new ControlPerson();
@@ -78,11 +80,18 @@ namespace Generator_Ierarhi.Template
 
             openFileDialog.ShowDialog();
 
-            pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+            try
+            {
+                pic.BackgroundImage = Image.FromFile(openFileDialog.FileName);
+                char t = (char)92;
+                pic.Name = openFileDialog.FileName.Split(t)[openFileDialog.FileName.Split(t).Length - 1];
+            }
+            catch
+            {
+                pic.BackgroundImage = Image.FromFile(@"D:\C#\UIdesign\Dinamic\Generator_Ierarhi\Generator_Ierarhi\bin\Debug\pic\user.png");
+                pic.Name = "user.png";
+            }
 
-            char t =(char)92;
-
-            pic.Name = openFileDialog.FileName.Split(t)[openFileDialog.FileName.Split(t).Length - 1];
         }
 
         private void setName()
@@ -165,6 +174,12 @@ namespace Generator_Ierarhi.Template
             cboFunctie.Items.Add("Staff");
             cboFunctie.Items.Add("Person");
 
+            cboFunctie.BackColor = Color.FromArgb(40, 40, 40);
+            cboFunctie.ForeColor = ThemeColor.PrimaryColor;
+            cboFunctie.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            cboFunctie.FlatStyle = FlatStyle.Flat;
+
             Controls.Add(cboFunctie);
         }
 
@@ -217,6 +232,12 @@ namespace Generator_Ierarhi.Template
             btnFinish.Name = "btnFinish";
             btnFinish.TextAlign = ContentAlignment.MiddleCenter;
             btnFinish.ForeColor = Color.White;
+
+            btnFinish.Image = Image.FromFile(path + @"\resources\checkmark_48px.png");
+
+            btnFinish.ImageAlign = ContentAlignment.MiddleLeft;
+            btnFinish.TextAlign = ContentAlignment.MiddleCenter;
+            btnFinish.TextImageRelation = TextImageRelation.ImageBeforeText;
 
             btnFinish.Click += BtnFinish_Click;
 

@@ -73,6 +73,7 @@ namespace Generator_Ierarhi.View
             this.Size = new Size(500, 300);
             this.BackColor = Color.FromArgb(40, 40, 40);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.Icon = new Icon(path + @"\resources\icons8_hierarchy.ico");
 
             SelectThemeColor();
 
@@ -203,7 +204,7 @@ namespace Generator_Ierarhi.View
             btnView.Location = new Point(275, 50);
             btnView.FlatStyle = FlatStyle.Flat;
             btnView.FlatAppearance.BorderSize = 0;
-            btnView.Text = "My hierarchy";
+            btnView.Text = "  My hierarchy";
             btnView.Name = "btnView";
             btnView.TextAlign = ContentAlignment.MiddleCenter;
             btnView.ForeColor = Color.White;
@@ -233,13 +234,18 @@ namespace Generator_Ierarhi.View
         {
             Button btnAddPerson = new Button();
             btnAddPerson.Size = new Size(275, 50);
-            btnAddPerson.Location = new Point(275, 50);
+            btnAddPerson.Location = new Point(275, 60);
             btnAddPerson.FlatStyle = FlatStyle.Flat;
             btnAddPerson.FlatAppearance.BorderSize = 0;
-            btnAddPerson.Text = "Add person";
+            btnAddPerson.Text = "  Add person";
             btnAddPerson.Name = "btnAddPerson";
-            btnAddPerson.TextAlign = ContentAlignment.MiddleCenter;
+            btnAddPerson.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAddPerson.TextAlign = ContentAlignment.MiddleLeft;
+            btnAddPerson.TextImageRelation = TextImageRelation.ImageBeforeText;
+
             btnAddPerson.ForeColor = Color.White;
+
+            btnAddPerson.Image = Image.FromFile(path + @"\resources\add_administrator_50px.png");
 
             btnAddPerson.Dock = DockStyle.Top;
 
@@ -262,14 +268,19 @@ namespace Generator_Ierarhi.View
         private void setBtnCreate(Panel aside)
         {
             Button btnCreate = new Button();
-            btnCreate.Size = new Size(275, 50);
+            btnCreate.Size = new Size(275, 60);
             btnCreate.Location = new Point(275, 50);
             btnCreate.FlatStyle = FlatStyle.Flat;
             btnCreate.FlatAppearance.BorderSize = 0;
-            btnCreate.Text = "Create hierarchy";
+            btnCreate.Text = "   Create      hierarchy";
             btnCreate.Name = "btnCreate";
-            btnCreate.TextAlign = ContentAlignment.MiddleCenter;
             btnCreate.ForeColor = Color.White;
+
+            btnCreate.Image = Image.FromFile(path + @"\resources\create_48px.png");
+
+            btnCreate.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCreate.TextAlign = ContentAlignment.MiddleCenter;
+            btnCreate.TextImageRelation = TextImageRelation.ImageBeforeText;
 
             btnCreate.Dock = DockStyle.Top;
 
@@ -292,14 +303,19 @@ namespace Generator_Ierarhi.View
         private void setBtnArchihe(Panel aside)
         {
             Button btnArchive = new Button();
-            btnArchive.Size = new Size(275, 50);
+            btnArchive.Size = new Size(275, 60);
             btnArchive.Location = new Point(550, 50);
             btnArchive.FlatStyle = FlatStyle.Flat;
             btnArchive.FlatAppearance.BorderSize = 0;
-            btnArchive.Text = "Archive";
+            btnArchive.Text = "   Archive";
             btnArchive.Name = "btnArchive";
-            btnArchive.TextAlign = ContentAlignment.MiddleCenter;
             btnArchive.ForeColor = Color.White;
+
+            btnArchive.Image = Image.FromFile(path + @"\resources\archive_folder_50px.png");
+
+            btnArchive.ImageAlign = ContentAlignment.MiddleLeft;
+            btnArchive.TextAlign = ContentAlignment.MiddleCenter;
+            btnArchive.TextImageRelation = TextImageRelation.ImageBeforeText;
 
             btnArchive.Dock = DockStyle.Top;
 
@@ -321,14 +337,19 @@ namespace Generator_Ierarhi.View
         private void setBtnProfil(Panel aside)
         {
             Button btnProfil = new Button();
-            btnProfil.Size = new Size(275, 50);
+            btnProfil.Size = new Size(275, 60);
             btnProfil.Location = new Point(825, 50);
             btnProfil.FlatStyle = FlatStyle.Flat;
             btnProfil.FlatAppearance.BorderSize = 0;
-            btnProfil.Text = "Profil";
+            btnProfil.Text = "   Profil";
             btnProfil.Name = "btnProfil";
-            btnProfil.TextAlign = ContentAlignment.MiddleCenter;
             btnProfil.ForeColor = Color.White;
+
+            btnProfil.Image = Image.FromFile(path + @"\resources\male_user_50px.png");
+
+            btnProfil.ImageAlign = ContentAlignment.MiddleLeft;
+            btnProfil.TextAlign = ContentAlignment.MiddleCenter;
+            btnProfil.TextImageRelation = TextImageRelation.ImageBeforeText;
 
             btnProfil.Dock = DockStyle.Top;
 
@@ -359,6 +380,10 @@ namespace Generator_Ierarhi.View
             Aside.Controls.Clear();
 
             this.Controls.Clear();
+
+            this.Location = new Point(300, 200);
+            this.ControlBox = false;
+            this.Size = new Size(500, 300);
 
             setLogin();
         }
