@@ -87,9 +87,6 @@
     <Compile Include="Template\ViewLogin.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="View\FrmTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="View\FrmView.cs">
       <SubType>Form</SubType>
     </Compile>

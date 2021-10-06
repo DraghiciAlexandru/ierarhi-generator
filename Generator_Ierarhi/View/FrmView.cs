@@ -64,6 +64,17 @@ namespace Generator_Ierarhi.View
             }
         }
 
+        private void DisableBtn()
+        {
+            foreach (Control prevBtn in Aside.Controls)
+            {
+                if (prevBtn.GetType() == typeof(Button))
+                {
+                    prevBtn.BackColor = Color.FromArgb(40, 40, 40);
+                }
+            }
+        }
+
         public void setLogin()
         {
             this.Text = "";
@@ -116,18 +127,7 @@ namespace Generator_Ierarhi.View
             }
 
         }
-
-        private void DisableBtn()
-        {
-            foreach (Control prevBtn in Aside.Controls)
-            {
-                if (prevBtn.GetType() == typeof(Button))
-                {
-                    prevBtn.BackColor = Color.FromArgb(40, 40, 40);
-                }
-            }
-        }
-
+        
         public void layoutStaff()
         {
             this.Text = "";
@@ -218,6 +218,8 @@ namespace Generator_Ierarhi.View
 
         private void BtnView_Click(object sender, EventArgs e)
         {
+            ActivateBtn(sender);
+
             Main.Controls.Clear();
 
             if (controlIerarhie.idApartine(ControlPerson.loged.Id) != 0)
@@ -256,6 +258,8 @@ namespace Generator_Ierarhi.View
 
         private void BtnAddPerson_Click(object sender, EventArgs e)
         {
+            ActivateBtn(sender);
+
             Main.Controls.Clear();
 
             CardAddPerson cardAdd = new CardAddPerson();
@@ -291,6 +295,8 @@ namespace Generator_Ierarhi.View
 
         private void BtnCreate_Click(object sender, EventArgs e)
         {
+            ActivateBtn(sender);
+
             Main.Controls.Clear();
 
             ViewCreateIerarhie viewCreateIerarhie = new ViewCreateIerarhie();
@@ -326,6 +332,8 @@ namespace Generator_Ierarhi.View
 
         private void BtnArchive_Click(object sender, EventArgs e)
         {
+            ActivateBtn(sender);
+
             Main.Controls.Clear();
 
             ViewArchive viewArchive = new ViewArchive(ControlPerson.loged.Id);
@@ -360,6 +368,8 @@ namespace Generator_Ierarhi.View
 
         private void BtnProfil_Click(object sender, EventArgs e)
         {
+            ActivateBtn(sender);
+
             Main.Controls.Clear();
 
             CardProfil cardProfil = new CardProfil();
@@ -465,6 +475,5 @@ namespace Generator_Ierarhi.View
             ReleaseCapture();
             SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
-
     }
 }
