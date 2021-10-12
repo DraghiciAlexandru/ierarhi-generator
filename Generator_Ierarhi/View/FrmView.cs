@@ -16,6 +16,7 @@ namespace Generator_Ierarhi.View
     class FrmView : Form
     {
         private Panel Header;
+        private Label lblPage;
         private Panel Aside;
         private Panel Main;
         private Button currentBtn;
@@ -89,6 +90,7 @@ namespace Generator_Ierarhi.View
             SelectThemeColor();
 
             setHeader(Header);
+            lblPage.Location = new Point(150, 5);
 
             ViewLogin viewLogin = new ViewLogin();
             Controls.Add(viewLogin);
@@ -141,6 +143,8 @@ namespace Generator_Ierarhi.View
             setAside(Aside);
             Header.Controls.Clear();
             setHeader(Header);
+            lblPage.Text = "Home";
+            setBtnHome(Header);
             setMain(Main);
 
         }
@@ -163,8 +167,8 @@ namespace Generator_Ierarhi.View
 
         private void setAside(Panel aside)
         {
-            aside.Size = new Size(200, this.Height - 50);
-            aside.Location = new Point(0, 50);
+            aside.Size = new Size(200, this.Height - 70);
+            aside.Location = new Point(0, 70);
             aside.BackColor = Color.FromArgb(40, 40, 40);
             aside.BorderStyle = BorderStyle.FixedSingle;
             aside.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Regular);
@@ -222,6 +226,8 @@ namespace Generator_Ierarhi.View
 
             Main.Controls.Clear();
 
+            lblPage.Text = "My hierarchy";
+
             if (controlIerarhie.idApartine(ControlPerson.loged.Id) != 0)
             {
                 ViewIerarhie viewIerarhie = new ViewIerarhie(controlIerarhie.idApartine(ControlPerson.loged.Id));
@@ -266,6 +272,8 @@ namespace Generator_Ierarhi.View
 
             cardAdd.Location = new Point(0, 0);
 
+            lblPage.Text = "Add person";
+
             Main.Controls.Add(cardAdd);
         }
 
@@ -289,7 +297,7 @@ namespace Generator_Ierarhi.View
             btnCreate.Dock = DockStyle.Top;
 
             btnCreate.Click += BtnCreate_Click;
-            
+
             aside.Controls.Add(btnCreate);
         }
 
@@ -302,6 +310,8 @@ namespace Generator_Ierarhi.View
             ViewCreateIerarhie viewCreateIerarhie = new ViewCreateIerarhie();
 
             viewCreateIerarhie.Location = new Point(250, 150);
+
+            lblPage.Text = "Create";
 
             Main.Controls.Add(viewCreateIerarhie);
         }
@@ -338,6 +348,8 @@ namespace Generator_Ierarhi.View
 
             ViewArchive viewArchive = new ViewArchive(ControlPerson.loged.Id);
             viewArchive.Location = new Point(0, 0);
+
+            lblPage.Text = "Archive";
 
             Main.Controls.Add(viewArchive);
         }
@@ -378,6 +390,8 @@ namespace Generator_Ierarhi.View
 
             cardProfil.picLogout.Click += PicLogout_Click;
 
+            lblPage.Text = "Profil";
+
             Main.Controls.Add(cardProfil);
         }
 
@@ -400,24 +414,64 @@ namespace Generator_Ierarhi.View
 
         private void setHeader(Panel header)
         {
-            header.Size = new Size(1100, 50);
+            header.Size = new Size(1100, 70);
             header.Dock = DockStyle.Top;
             header.BackColor = ThemeColor.PrimaryColor;
             header.BorderStyle = BorderStyle.FixedSingle;
-            //header.MouseDown += Header_MouseDown;
-
+            
             header.Font = new Font("Microsoft Sans Serif", 16, FontStyle.Regular);
 
             setBtnClose(header);
             setBtnMin(header);
 
             Controls.Add(header);
+
+            setLblPage(Header);
+        }
+
+        private void setBtnHome(Panel header)
+        {
+            Button btnHome = new Button();
+            btnHome.Size = new Size(200, 60);
+            btnHome.Location = new Point(0, 5);
+            btnHome.FlatStyle = FlatStyle.Flat;
+            btnHome.FlatAppearance.BorderSize = 0;
+            btnHome.Text = " Home";
+            btnHome.Name = "btnHome";
+            btnHome.ForeColor = Color.White;
+
+            btnHome.Image = Image.FromFile(path + @"\resources\home_50px.png");
+
+            btnHome.ImageAlign = ContentAlignment.MiddleLeft;
+            btnHome.TextAlign = ContentAlignment.MiddleCenter;
+            btnHome.TextImageRelation = TextImageRelation.ImageBeforeText;
+
+            header.Controls.Add(btnHome);
+        }
+
+        private void setLblPage(Panel header)
+        {
+            lblPage = new Label();
+
+            lblPage.AutoSize = false;
+            lblPage.Size = new Size(200, 50);
+            lblPage.TextAlign = ContentAlignment.MiddleCenter;
+
+            lblPage.Text = "Login";
+
+            lblPage.Font = new Font("Microsoft Sans Serif", 22, FontStyle.Bold);
+
+            lblPage.ForeColor = Color.White;
+
+            lblPage.Location = new Point(header.Width / 2, 5);
+
+            header.Controls.Add(lblPage);
         }
 
         private void setMain(Panel main)
         {
-            main.Size = new Size(this.Width - 200, this.Height - 50);
-            main.Location = new Point(200, 50);
+            main.Size = new Size(this.Width - 200, this.Height - 70);
+            main.Location = new Point(200, 70);
             main.BackColor = Color.FromArgb(40, 40, 40);
             main.BorderStyle = BorderStyle.FixedSingle;
 
