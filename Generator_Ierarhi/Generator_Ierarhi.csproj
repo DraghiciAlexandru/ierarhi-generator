@@ -81,6 +81,9 @@
     <Compile Include="Template\ViewCreateIerarhie.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Template\ViewHome.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Template\ViewIerarhie.cs">
       <SubType>Component</SubType>
     </Compile>

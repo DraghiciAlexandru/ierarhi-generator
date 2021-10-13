@@ -138,15 +138,16 @@ namespace Generator_Ierarhi.View
             this.WindowState = FormWindowState.Maximized;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             
-            SelectThemeColor();
-
             setAside(Aside);
             Header.Controls.Clear();
             setHeader(Header);
             lblPage.Text = "Home";
             setBtnHome(Header);
             setMain(Main);
+            ViewHome viewHome = new ViewHome();
+            viewHome.Location = new Point(175, 75);
 
+            Main.Controls.Add(viewHome);
         }
 
         public void layoutPerson()
@@ -157,12 +158,14 @@ namespace Generator_Ierarhi.View
             this.WindowState = FormWindowState.Maximized;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
 
-            SelectThemeColor();
-
             setAsideClient(Aside);
             Header.Controls.Clear();
             setHeader(Header);
             setMain(Main);
+            ViewHome viewHome = new ViewHome();
+            viewHome.Location = new Point(175, 75);
+
+            Main.Controls.Add(viewHome);
         }
 
         private void setAside(Panel aside)
@@ -446,7 +449,22 @@ namespace Generator_Ierarhi.View
             btnHome.TextAlign = ContentAlignment.MiddleCenter;
             btnHome.TextImageRelation = TextImageRelation.ImageBeforeText;
 
+            btnHome.Click += BtnHome_Click;
+
             header.Controls.Add(btnHome);
+        }
+
+        private void BtnHome_Click(object sender, EventArgs e)
+        {
+            DisableBtn();
+            Main.Controls.Clear();
+
+            ViewHome viewHome = new ViewHome();
+            viewHome.Location = new Point(150, 75);
+
+            lblPage.Text = "Home";
+
+            Main.Controls.Add(viewHome);
         }
 
         private void setLblPage(Panel header)
@@ -463,7 +481,7 @@ namespace Generator_Ierarhi.View
 
             lblPage.ForeColor = Color.White;
 
-            lblPage.Location = new Point(header.Width / 2, 5);
+            lblPage.Location = new Point(header.Width / 2, 10);
 
             header.Controls.Add(lblPage);
         }
