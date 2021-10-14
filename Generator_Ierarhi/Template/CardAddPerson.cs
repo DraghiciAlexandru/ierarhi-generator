@@ -274,7 +274,7 @@ namespace Generator_Ierarhi.Template
 
             if (cboFunctie.SelectedItem.ToString() == "Admin")
             {
-                Admin person = new Admin(0, 0, txtName.Text, txtPassword.Text, txtEmail.Text, txtPhone.Text, pic.Name);
+                Admin person = new Admin(0, 0, txtName.Text, txtPassword.Text, txtEmail.Text, txtPhone.Text, pic.Name, 0);
 
                 controlPerson.add(person);
 
@@ -282,7 +282,7 @@ namespace Generator_Ierarhi.Template
             }
             else if(cboFunctie.SelectedItem.ToString()=="Staff")
             {
-                Staff person = new Staff(0, 0, txtName.Text, txtPassword.Text, txtEmail.Text, txtPhone.Text, pic.Name);
+                Staff person = new Staff(0, 0, txtName.Text, txtPassword.Text, txtEmail.Text, txtPhone.Text, pic.Name, 0);
 
                 controlPerson.add(person);
 
@@ -290,7 +290,7 @@ namespace Generator_Ierarhi.Template
             }
             else
             {
-                Person person = new Person(0, 0, txtName.Text, txtPassword.Text, txtEmail.Text, txtPhone.Text, "Person", pic.Name);
+                Person person = new Person(0, 0, txtName.Text, txtPassword.Text, txtEmail.Text, txtPhone.Text, "Person", pic.Name, 0);
 
                 controlPerson.add(person);
 

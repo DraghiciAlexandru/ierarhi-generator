@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Generator_Ierarhi.Template
 {
-    class ViewIerarhie : Panel
+    class CardSalary : Panel
     {
         String path = Application.StartupPath;
         private ControlIerarhie controlIerarhie;
@@ -21,7 +21,7 @@ namespace Generator_Ierarhi.Template
         public List<CardItem> cardItems;
         public BuiltIerarhie builtIerarhie;
 
-        public ViewIerarhie(int id)
+        public CardSalary(int id)
         {
             controlIerarhie = new ControlIerarhie();
             controlPerson = new ControlPerson();
@@ -37,11 +37,10 @@ namespace Generator_Ierarhi.Template
             this.Size = new Size(Screen.FromHandle(this.Handle).WorkingArea.Width - 200, Screen.FromHandle(this.Handle).WorkingArea.Height - 100);
             this.BackColor = Color.FromArgb(40, 40, 40);
             this.AutoScroll = true;
-            this.Name = "pnlIerarhie";
+            this.Name = "pnlSalary";
             this.Location = new Point(0, 0);
 
             txtTitlu();
-            setBtnSalariu();
             load();
         }
 
@@ -59,30 +58,22 @@ namespace Generator_Ierarhi.Template
 
             txtTitlu.Font = new Font("Microsoft Sans Serif", 20, FontStyle.Regular);
 
-            txtTitlu.TextChanged += TxtTitlu_TextChanged;
-
             Controls.Add(txtTitlu);
-        }
-
-        private void TxtTitlu_TextChanged(object sender, EventArgs e)
-        {
-            TextBox textBox=sender as TextBox;
-
-            controlIerarhie.updateTitlu(builtIerarhie.Id, textBox.Text);
-
-            controlIerarhie.save();
         }
 
         private void load()
         {
             Queue<TreeNode<Person>> queue = new Queue<TreeNode<Person>>();
 
+            //BST<TreeNode<Person>> bst = new BST<TreeNode<Person>>();
+            
+
             queue.Enqueue(builtIerarhie.Ierarhie.root);
 
             CardItem cardItem = new CardItem(builtIerarhie.Ierarhie.root.Data);
 
             cardItem.Location = new Point(500, 100);
-            
+
             cardItems.Add(cardItem);
             this.Controls.Add(cardItem);
 
@@ -95,12 +86,12 @@ namespace Generator_Ierarhi.Template
                     cardItem = new CardItem(queue.Peek().Left.Data);
 
                     int x = 0, y = 0;
-                    foreach(CardItem z in cardItems)
+                    foreach (CardItem z in cardItems)
                     {
                         if (z.Person.Id == queue.Peek().Left.Data.IdUpper)
                         {
                             y = z.Location.Y + 160;
-                            
+
                             x = (z.Location.X - 250) + (y / 160) * 60;
                         }
                     }
@@ -134,80 +125,6 @@ namespace Generator_Ierarhi.Template
 
                 queue.Dequeue();
             }
-
-            foreach(CardItem i in cardItems)
-            {
-                i.DoubleClick += CardItem_DoubleClick;
-                foreach (Control x in i.Controls)
-                {
-                    x.DoubleClick += CardItem_DoubleClick;
-                }
-            }
-        }
-
-        private void CardItem_DoubleClick(object sender, EventArgs e)
-        {
-            String idPers = "";
-
-            if(sender is CardItem)
-            {
-                idPers = ((CardItem)sender).Name;
-            }
-            else if(sender is PictureBox)
-            {
-                idPers = ((PictureBox)sender).Name;
-            }
-            else if (sender is TextBox)
-            {
-                idPers = ((TextBox)sender).Name;
-            }
-
-            CardDetails cardDetails = new CardDetails(int.Parse(idPers), builtIerarhie.Id);
-
-            cardDetails.Location = new Point(0, 0);
-
-            this.Parent.Controls.Add(cardDetails);
-
-            foreach (Control x in this.Parent.Controls)
-            {
-                if (x.Name == "pnlIerarhie")
-                {
-                    Parent.Controls.Remove(x);
-                }
-            }
-
-        }
-
-        public void removeEvent()
-        {
-            foreach (CardItem i in cardItems)
-            {
-                i.DoubleClick -= CardItem_DoubleClick;
-                foreach (Control x in i.Controls)
-                {
-                    x.DoubleClick -= CardItem_DoubleClick;
-                }
-            }
-
-            foreach(Control x in this.Controls)
-            {
-                if (x.Name == "txtTitlu")
-                    x.TextChanged -= TxtTitlu_TextChanged;
-            }
-        }
-
-        private void setBtnSalariu()
-        {
-            Button btnSalariu = new Button();
-            btnSalariu.Size = new Size(50, 50);
-            btnSalariu.Location = new Point(750, 125);
-            btnSalariu.BackgroundImage = Image.FromFile(path + @"\resources\money_bag_bitcoin_50px.png");
-            btnSalariu.BackgroundImageLayout = ImageLayout.Stretch;
-
-            btnSalariu.FlatStyle = FlatStyle.Flat;
-            btnSalariu.FlatAppearance.BorderSize = 0;
-
-            this.Controls.Add(btnSalariu);
         }
     }
 }

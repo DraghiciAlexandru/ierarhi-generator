@@ -22,6 +22,8 @@ namespace Generator_Ierarhi.Model
         private String picFile;
         private Image picture;
 
+        private int salary;
+
         public int Id
         {
             get { return id; }
@@ -71,7 +73,12 @@ namespace Generator_Ierarhi.Model
             set { picture = value; }
         }
 
-        public Person(int ID, int IdUpper, String Nume, String Password, String Email, String Telefon, String Tip, String picFile)
+        public int Salary
+        {
+            get { return salary;}
+        }
+
+        public Person(int ID, int IdUpper, String Nume, String Password, String Email, String Telefon, String Tip, String picFile, int Salary)
         {
             this.id = ID;
             this.idUpper = IdUpper;
@@ -82,9 +89,10 @@ namespace Generator_Ierarhi.Model
             this.tip = Tip;
             this.picFile = picFile;
             this.picture = Image.FromFile(path + "\\pic\\" + picFile);
+            this.salary = Salary;
         }
 
-        public Person(String client) : this(int.Parse(client.Split(',')[0]), int.Parse(client.Split(',')[1]), client.Split(',')[2], client.Split(',')[3], client.Split(',')[4], client.Split(',')[5], client.Split(',')[6], client.Split(',')[7])
+        public Person(String client) : this(int.Parse(client.Split(',')[0]), int.Parse(client.Split(',')[1]), client.Split(',')[2], client.Split(',')[3], client.Split(',')[4], client.Split(',')[5], client.Split(',')[6], client.Split(',')[7], int.Parse(client.Split(',')[8]))
         {
 
         }

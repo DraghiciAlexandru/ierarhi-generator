@@ -54,6 +54,7 @@
     <Compile Include="Model\Staff.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicii\BST.cs" />
     <Compile Include="Servicii\Ierarhie.cs" />
     <Compile Include="Servicii\ThemeColor.cs" />
     <Compile Include="Servicii\TreeNode.cs" />
@@ -73,6 +74,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Template\CardProfil.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Template\CardSalary.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Template\ViewArchive.cs">
