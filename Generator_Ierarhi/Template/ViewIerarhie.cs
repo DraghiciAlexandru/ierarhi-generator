@@ -207,7 +207,28 @@ namespace Generator_Ierarhi.Template
             btnSalariu.FlatStyle = FlatStyle.Flat;
             btnSalariu.FlatAppearance.BorderSize = 0;
 
+            btnSalariu.Click += BtnSalariu_Click;
+
             this.Controls.Add(btnSalariu);
+        }
+
+        private void BtnSalariu_Click(object sender, EventArgs e)
+        {
+
+            CardSalary cardSalary = new CardSalary(builtIerarhie.Id);
+
+            cardSalary.Location = new Point(0, 0);
+
+            this.Parent.Controls.Add(cardSalary);
+
+            foreach (Control x in this.Parent.Controls)
+            {
+                if (x.Name == "pnlIerarhie")
+                {
+                    Parent.Controls.Remove(x);
+                }
+            }
+
         }
     }
 }

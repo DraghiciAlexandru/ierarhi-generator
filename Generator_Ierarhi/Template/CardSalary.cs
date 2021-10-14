@@ -65,10 +65,32 @@ namespace Generator_Ierarhi.Template
         {
             Queue<TreeNode<Person>> queue = new Queue<TreeNode<Person>>();
 
-            //BST<TreeNode<Person>> bst = new BST<TreeNode<Person>>();
-            
+            BST<Person> bst = new BST<Person>();
+
+            bst.insert(builtIerarhie.Ierarhie.root.Data);
 
             queue.Enqueue(builtIerarhie.Ierarhie.root);
+
+            while (queue.Count != 0)
+            {
+                if (queue.Peek().Left != null)
+                {
+                    bst.insert(queue.Peek().Left.Data);
+                    queue.Enqueue(queue.Peek().Left);
+                }
+                if (queue.Peek().Right != null)
+                {
+                    bst.insert(queue.Peek().Right.Data);
+                    queue.Enqueue(queue.Peek().Right);
+                }
+
+                queue.Dequeue();
+
+            }
+
+            bst.preorder(bst.Root);
+
+            queue.Enqueue(bst.Root);
 
             CardItem cardItem = new CardItem(builtIerarhie.Ierarhie.root.Data);
 
@@ -79,6 +101,8 @@ namespace Generator_Ierarhi.Template
 
             while (queue.Count != 0)
             {
+                TreeNode<Person> curent = queue.Peek();
+
                 if (queue.Peek().Left != null)
                 {
                     queue.Enqueue(queue.Peek().Left);
@@ -88,7 +112,7 @@ namespace Generator_Ierarhi.Template
                     int x = 0, y = 0;
                     foreach (CardItem z in cardItems)
                     {
-                        if (z.Person.Id == queue.Peek().Left.Data.IdUpper)
+                        if (z.Person.Id == curent.Data.Id)
                         {
                             y = z.Location.Y + 160;
 
@@ -110,7 +134,7 @@ namespace Generator_Ierarhi.Template
                     int x = 0, y = 0;
                     foreach (CardItem z in cardItems)
                     {
-                        if (z.Person.Id == queue.Peek().Right.Data.IdUpper)
+                        if (z.Person.Id == curent.Data.Id)
                         {
                             y = z.Location.Y + 160;
                             x = (z.Location.X + 250) - (y / 160) * 60;

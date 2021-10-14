@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Generator_Ierarhi.Servicii
 {
-    class BST<T> where T : IComparable
+    class BST<T> where T : IComparable<T>
     {
         private TreeNode<T> root = null;
 

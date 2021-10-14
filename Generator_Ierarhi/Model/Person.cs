@@ -117,10 +117,10 @@ namespace Generator_Ierarhi.Model
 
         public int CompareTo(Person other)
         {
-            if (this.tip == "admin" && other.tip != "admin")
+            if (this.salary > other.salary)
                 return 1;
 
-            if (this.tip != "admin" && other.tip == "admin")
+            if (this.salary < other.salary)
                 return -1;
 
             return 0;
